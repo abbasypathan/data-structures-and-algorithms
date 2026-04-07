@@ -1,4 +1,4 @@
-package com.datastructures.bigoofarraylist;
+package com.datastructures.arraylist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
