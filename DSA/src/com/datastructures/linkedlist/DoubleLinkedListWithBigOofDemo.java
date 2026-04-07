@@ -3,7 +3,7 @@ package com.datastructures.linkedlist;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class LinkedListWithBigOofDemo {
+public class DoubleLinkedListWithBigOofDemo {
 
 	public static void operationOnLinkedList() {
 
