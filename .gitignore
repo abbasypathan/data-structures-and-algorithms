@@ -1,5 +1,12 @@
+# Eclipse workspace files
 .metadata/
-DSA/.settings
-DSA/bin
-DSA/.classpath
-DSA/.project
+*.classpath
+*.project
+.settings/
+
+# Compiled Java files
+bin/
+*.class
+
+# Ignore IDE-specific files (optional)
+*.log
