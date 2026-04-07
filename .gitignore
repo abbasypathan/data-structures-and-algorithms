@@ -1,1 +1,5 @@
 .metadata/
+DSA/.settings
+DSA/bin
+DSA/.classpath
+DSA/.project
