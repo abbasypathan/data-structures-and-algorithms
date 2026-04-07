@@ -55,14 +55,18 @@ public class MyLinkedListDemo {
 		System.out.println("Length :" + myLinkedList.getLength());
 
 		myLinkedList.prinList();
-		
+
 		System.out.println("Insert Operation :");
-		System.out.println("Is inserted ? : " + myLinkedList.insert(1, 66));
+		System.out.println("Is inserted ? : " + myLinkedList.insert(1, 68));
 
 		System.out.println("Head :" + myLinkedList.getHead().value);
 		System.out.println("Tail :" + myLinkedList.getTail().value);
 		System.out.println("Length :" + myLinkedList.getLength());
 
+		myLinkedList.prinList();
+
+		myLinkedList.reverse();
+		System.out.println("After Reverse:");
 		myLinkedList.prinList();
 
 	}
