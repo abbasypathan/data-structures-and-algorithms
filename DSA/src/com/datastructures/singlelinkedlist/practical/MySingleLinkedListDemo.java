@@ -1,9 +1,9 @@
-package com.datastructures.linkedlist.practical;
+package com.datastructures.singlelinkedlist.practical;
 
-public class MyLinkedListDemo {
+public class MySingleLinkedListDemo {
 
 	public static void main(String[] args) {
-		MyLinkedList myLinkedList = new MyLinkedList(4);
+		MySingleLinkedList myLinkedList = new MySingleLinkedList(4);
 
 		myLinkedList.append(5);
 		myLinkedList.append(9);

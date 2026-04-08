@@ -1,31 +1,31 @@
-package com.datastructures.linkedlist.practical;
+package com.datastructures.singlelinkedlist.practical;
 
-public class MyLinkedList {
+public class MySingleLinkedList {
 
-	private Node head;
-	private Node tail;
+	private SingleNode head;
+	private SingleNode tail;
 	private int length;
 
-	public MyLinkedList(int value) {
-		Node myNewNode = new Node(value);
+	public MySingleLinkedList(int value) {
+		SingleNode myNewNode = new SingleNode(value);
 		this.head = myNewNode;
 		this.tail = myNewNode;
 		this.length = 1;
 	}
 
-	public Node getHead() {
+	public SingleNode getHead() {
 		return head;
 	}
 
-	public void setHead(Node head) {
+	public void setHead(SingleNode head) {
 		this.head = head;
 	}
 
-	public Node getTail() {
+	public SingleNode getTail() {
 		return tail;
 	}
 
-	public void setTail(Node tail) {
+	public void setTail(SingleNode tail) {
 		this.tail = tail;
 	}
 
@@ -38,7 +38,7 @@ public class MyLinkedList {
 	}
 
 	public void prinList() {
-		Node temp = this.head;
+		SingleNode temp = this.head;
 
 		while (temp != null) {
 			System.out.println(temp.value);
@@ -47,7 +47,7 @@ public class MyLinkedList {
 	}
 
 	public void append(int value) {
-		Node node = new Node(value);
+		SingleNode node = new SingleNode(value);
 
 		if (this.tail == null) {
 			this.head = node;
@@ -58,12 +58,12 @@ public class MyLinkedList {
 		this.length++;
 	}
 
-	public Node removeLast() {
+	public SingleNode removeLast() {
 		if (this.length == 0) {
 			return null;
 		}
-		Node temp = head;
-		Node pre = head;
+		SingleNode temp = head;
+		SingleNode pre = head;
 		while (temp.next != null) {
 			pre = temp;
 			temp = temp.next;
@@ -80,7 +80,7 @@ public class MyLinkedList {
 	}
 
 	public void prepend(int value) {
-		Node node = new Node(value);
+		SingleNode node = new SingleNode(value);
 		if (this.length == 0) {
 			this.head = node;
 			this.tail = node;
@@ -91,11 +91,11 @@ public class MyLinkedList {
 		this.length++;
 	}
 
-	public Node removeFirst() {
+	public SingleNode removeFirst() {
 		if (this.length == 0) {
 			return null;
 		}
-		Node temp = this.head;
+		SingleNode temp = this.head;
 		this.head = this.head.next;
 		temp.next = null;
 		this.length--;
@@ -106,11 +106,11 @@ public class MyLinkedList {
 		return temp;
 	}
 
-	public Node get(int index) {
+	public SingleNode get(int index) {
 		if (index < 0 || index >= this.length) {
 			return null;
 		}
-		Node temp = this.head;
+		SingleNode temp = this.head;
 		for (int i = 0; i < index; i++) {
 			temp = temp.next;
 		}
@@ -118,7 +118,7 @@ public class MyLinkedList {
 	}
 
 	public boolean set(int index, int value) {
-		Node temp = get(index);
+		SingleNode temp = get(index);
 		if (temp != null) {
 			temp.value = value;
 			return true;
@@ -138,15 +138,15 @@ public class MyLinkedList {
 			append(value);
 			return true;
 		}
-		Node neNode = new Node(value);
-		Node temp = get(index - 1);
+		SingleNode neNode = new SingleNode(value);
+		SingleNode temp = get(index - 1);
 		neNode.next = temp.next;
 		temp.next = neNode;
 		this.length++;
 		return true;
 	}
 
-	public Node remove(int index) {
+	public SingleNode remove(int index) {
 		if (index < 0 || index >= this.length) {
 			return null;
 		}
@@ -156,8 +156,8 @@ public class MyLinkedList {
 		if (index == this.length - 1) {
 			return removeLast();
 		}
-		Node pre = get(index - 1);
-		Node temp = pre.next;
+		SingleNode pre = get(index - 1);
+		SingleNode temp = pre.next;
 		pre.next = temp.next;
 		temp.next = null;
 		this.length--;
@@ -165,11 +165,11 @@ public class MyLinkedList {
 	}
 
 	public void reverse() {
-		Node temp = head;
+		SingleNode temp = head;
 		head = tail;
 		tail = temp;
-		Node after = temp.next;
-		Node before = null;
+		SingleNode after = temp.next;
+		SingleNode before = null;
 		for (int i = 0; i < length; i++) {
 			after = temp.next;
 			temp.next = before;
