@@ -226,7 +226,7 @@ public class BigOofArrayListDemo {
 ** Classes & Refrences
 
 =====================================================================================================================
-** Linked List 
+** Single Linked List 
 
 KeyNote : 
 - Array list have data in contiguous memory allocated that's why we use index.
@@ -241,55 +241,565 @@ Head
                                                                                        → Tail: 9 (added with addLast)
 
 ---------------------------------------------------------------------------------------------------------------------
+* Big O of single lined list :
 
 package com.datastructures.linkedlist;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import com.datastructures.singlelinkedlist.practical.MySingleLinkedList;
 
-public class LinkedListWithBigOofDemo {
-
-	public static void operationOnLinkedList() {
-
-		// O(n) - As it will add each element in list
-		LinkedList<Integer> linkedList = new LinkedList<>(Arrays.asList(3, 4, 5, 7, 8, 9, 6));
-
-		// O(1) - This will add element to first head as one more node
-		linkedList.addFirst(45);
-
-		// O(1) - This will add element to last tail as one more node, no need to iterate as it will have tail address
-		linkedList.add(23);
-		linkedList.addLast(22);
-
-		// O(1) - This will remove first element and move head to next
-		linkedList.remove();
-		linkedList.removeFirst();
-
-		// O(1) - This will remove last element and move tail to previous node
-		linkedList.removeLast();
-		
-		// O(n) - need to iterate over list to remove
-		linkedList.remove(2);
-		
-		// O(n) - need to iterate over list to add
-		linkedList.add(4, 34);
-		
-		// O(1) - This will return first and last value no traversal needed
-		linkedList.getFirst();
-		linkedList.getLast();
-		
-		// O(n) - need to iterate over list to get value
-		linkedList.get(5);
-
-	}
+public class SingleLinkedListWithBigOofDemo {
 
 	public static void main(String[] args) {
-		operationOnLinkedList();
+
+		MySingleLinkedList myLinkedList = new MySingleLinkedList(23);
+
+		// O(1) - This will append element at last considering we have tail reference and change tail to added node
+		myLinkedList.append(34);
+
+		// O(1) - This will add element first and just change the head
+		myLinkedList.prepend(67);
+
+		// O(n) - This will iterate over list and get the particular index node
+		myLinkedList.get(1);
+
+		// O(n) - This will iterate over list and set value to specified index
+		myLinkedList.set(1, 56);
+
+		// O(n) - This will iterate over list and add element to specified index
+		myLinkedList.insert(1, 78);
+
+		// O(n) - This will iterate over list and remove node at specified index
+		myLinkedList.remove(1);
+
+		// O(1) - This will change head to next and remove first
+		myLinkedList.removeFirst();
+
+		// O(n) - This will remove last element and set tail to previous but here need to iterate till last node
+		myLinkedList.removeLast();
+
+		// O(n) - This will iterate all node and print value
+		myLinkedList.prinList();
+	}
+}
+---------------------------------------------------------------------------------------------------------------------
+- Java don't provide by default implementation for this we need to create our own
+
+Node :
+package com.datastructures.singlelinkedlist.practical;
+
+public class SingleNode {
+
+	public int value;
+	public SingleNode next;
+
+	public SingleNode(int value) {
+		this.value = value;
 	}
 }
 
+Single Linked List :
+
+package com.datastructures.singlelinkedlist.practical;
+
+public class MySingleLinkedList {
+
+	private SingleNode head;
+	private SingleNode tail;
+	private int length;
+
+	public MySingleLinkedList(int value) {
+		SingleNode myNewNode = new SingleNode(value);
+		this.head = myNewNode;
+		this.tail = myNewNode;
+		this.length = 1;
+	}
+
+	public SingleNode getHead() {
+		return head;
+	}
+
+	public void setHead(SingleNode head) {
+		this.head = head;
+	}
+
+	public SingleNode getTail() {
+		return tail;
+	}
+
+	public void setTail(SingleNode tail) {
+		this.tail = tail;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public void prinList() {
+		SingleNode temp = this.head;
+
+		while (temp != null) {
+			System.out.println(temp.value);
+			temp = temp.next;
+		}
+	}
+
+	public void append(int value) {
+		SingleNode node = new SingleNode(value);
+
+		if (this.tail == null) {
+			this.head = node;
+		} else {
+			this.tail.next = node;
+		}
+		this.tail = node;
+		this.length++;
+	}
+
+	public SingleNode removeLast() {
+		if (this.length == 0) {
+			return null;
+		}
+		SingleNode temp = head;
+		SingleNode pre = head;
+		while (temp.next != null) {
+			pre = temp;
+			temp = temp.next;
+		}
+		this.tail = pre;
+		tail.next = null;
+		this.length--;
+		// This is edge condition when their is only one node
+		if (length == 0) {
+			this.head = null;
+			this.tail = null;
+		}
+		return temp;
+	}
+
+	public void prepend(int value) {
+		SingleNode node = new SingleNode(value);
+		if (this.length == 0) {
+			this.head = node;
+			this.tail = node;
+		} else {
+			node.next = this.head;
+			this.head = node;
+		}
+		this.length++;
+	}
+
+	public SingleNode removeFirst() {
+		if (this.length == 0) {
+			return null;
+		}
+		SingleNode temp = this.head;
+		this.head = this.head.next;
+		temp.next = null;
+		this.length--;
+		// Edge case when their is only one node
+		if (this.length == 0) {
+			this.tail = null;
+		}
+		return temp;
+	}
+
+	public SingleNode get(int index) {
+		if (index < 0 || index >= this.length) {
+			return null;
+		}
+		SingleNode temp = this.head;
+		for (int i = 0; i < index; i++) {
+			temp = temp.next;
+		}
+		return temp;
+	}
+
+	public boolean set(int index, int value) {
+		SingleNode temp = get(index);
+		if (temp != null) {
+			temp.value = value;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean insert(int index, int value) {
+		if (index < 0 || index > this.length) {
+			return false;
+		}
+		if (index == 0) {
+			prepend(value);
+			return true;
+		}
+		if (index == this.length) {
+			append(value);
+			return true;
+		}
+		SingleNode neNode = new SingleNode(value);
+		SingleNode temp = get(index - 1);
+		neNode.next = temp.next;
+		temp.next = neNode;
+		this.length++;
+		return true;
+	}
+
+	public SingleNode remove(int index) {
+		if (index < 0 || index >= this.length) {
+			return null;
+		}
+		if (index == 0) {
+			return removeFirst();
+		}
+		if (index == this.length - 1) {
+			return removeLast();
+		}
+		SingleNode pre = get(index - 1);
+		SingleNode temp = pre.next;
+		pre.next = temp.next;
+		temp.next = null;
+		this.length--;
+		return temp;
+	}
+
+	public void reverse() {
+		SingleNode temp = head;
+		head = tail;
+		tail = temp;
+		SingleNode after = temp.next;
+		SingleNode before = null;
+		for (int i = 0; i < length; i++) {
+			after = temp.next;
+			temp.next = before;
+			before = temp;
+			temp = after;
+		}
+	}
+}
+
+Main Class :
+
+package com.datastructures.singlelinkedlist.practical;
+
+public class MySingleLinkedListDemo {
+
+	public static void main(String[] args) {
+		MySingleLinkedList myLinkedList = new MySingleLinkedList(4);
+
+		myLinkedList.append(5);
+		myLinkedList.append(9);
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		System.out.println();
+		System.out.println("Removed :" + myLinkedList.removeLast().value);
+		System.out.println();
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		myLinkedList.append(45);
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		myLinkedList.removeFirst();
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		System.out.println("Get Operation :");
+		System.out.println("Get : " + myLinkedList.get(1).value);
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		System.out.println("Set Operation :");
+		System.out.println("Is Set ? : " + myLinkedList.set(1, 66));
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		System.out.println("Insert Operation :");
+		System.out.println("Is inserted ? : " + myLinkedList.insert(1, 68));
+
+		System.out.println("Head :" + myLinkedList.getHead().value);
+		System.out.println("Tail :" + myLinkedList.getTail().value);
+		System.out.println("Length :" + myLinkedList.getLength());
+
+		myLinkedList.prinList();
+
+		myLinkedList.reverse();
+		System.out.println("After Reverse:");
+		myLinkedList.prinList();
+
+	}
+}
+---------------------------------------------------------------------------------------------------------------------
+LeetCode Excercise for Single Linked List:
+
+1. Find Middle Node - without counting/using lenght
+
+- will use slow and fast pointer technique which also know as Floyd's Tortoise and Hare algorithm
+
+public SingleNode findMiddleNode() {
+		SingleNode slow = this.head;
+		SingleNode fast = this.head;
+		while (fast != null && fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		return slow;
+	}
+
+2. Has Loop 
+- will use slow and fast pointer technique which also know as Floyd's Tortoise and Hare algorithm
+- At one point if their is loop slow will be same as fast then will brak loop and return true
+
+public boolean hasLoop() {
+		SingleNode slow = this.head;
+		SingleNode fast = this.head;
+		boolean hasLoop = false;
+		while (fast != null && fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+			if (slow == fast) {
+				hasLoop = true;
+				break;
+			}
+		}
+		return hasLoop;
+	}
+
+3. Find Kth Node
+- We need to find kth node from tail side
+- If we have array 11,12,13,14,15 and k is 2 it should return 14
+- will use slow and fast pointer technique which also know as Floyd's Tortoise and Hare algorithm
+
+public SingleNode findKthFromEnd(int k) {
+		if (k <= 0) {
+			return null;
+		}
+		SingleNode slow = this.head;
+		SingleNode fast = this.head;
+
+		for (int i = 0; i < k; i++) {
+			if (fast == null) {
+				return null;
+			}
+			fast = fast.next;
+		}
+
+		while (fast != null) {
+			slow = slow.next;
+			fast = fast.next;
+		}
+		return slow;
+	}
+
+4. Remove Duplicates
+- Effience way by using hashset but wihout hash set we have to use inner loop
+
+A : Using Hash Set
+
+public void removeDuplicatesUsingHashSet() {
+		// Step 1: Create a Set to store unique node values.
+		// We initialize a HashSet, which allows for fast look-up
+		// to check for duplicates later on.
+		Set<Integer> values = new HashSet<>();
+
+		// Step 2: Initialize a Node variable 'previous' to null.
+		// 'previous' will help us unlink a node if it's a duplicate.
+		SingleNode previous = null;
+
+		// Step 3: Initialize 'current' to point to the head node.
+		// 'current' will be used to iterate through the linked list.
+		SingleNode current = head;
+
+		// Step 4: Begin iteration through the linked list.
+		// We will keep iterating until 'current' becomes null,
+		// indicating we have reached the end of the list.
+		while (current != null) {
+
+			// Step 5: Check for duplicates.
+			// We check if the current node's value is already in the set.
+			if (values.contains(current.value)) {
+
+				// Step 6: Remove the duplicate node.
+				// By setting 'previous.next' to 'current.next',
+				// we remove the link to 'current', effectively
+				// deleting it from the list.
+				previous.next = current.next;
+
+				// Step 7: Update the length of the list.
+				// Since we removed a node, we decrement the length by 1.
+				length -= 1;
+
+			} else {
+
+				// Step 8: Add unique value to set.
+				// If the current value is not a duplicate,
+				// we add it to the set for future reference.
+				values.add(current.value);
+
+				// Step 9: Update 'previous' node.
+				// We set 'previous' to the 'current' node, as we
+				// move forward in the list.
+				previous = current;
+			}
+
+			// Step 10: Move to the next node.
+			// We update 'current' to point to the next node in the list,
+			// continuing our iteration.
+			current = current.next;
+		}
+	}
+
+B : Using Inner Loop
+
+public void removeDuplicates() {
+		SingleNode current = this.head;
+
+		while (current != null) {
+			SingleNode runner = current;
+			while (runner.next != null) {
+				if (runner.next.value == current.value) {
+					runner.next = runner.next.next;
+					length--;
+				} else {
+					runner = runner.next;
+				}
+			}
+			current = current.next;
+		}
+	}
+5. Binary to Decimal
+Binary:   1     1     0     1
+         ┌───┬───┬───┬───┐
+Powers:  │2³  │2²  │2¹  │2⁰  │
+         ├───┼───┼───┼───┤
+Values:  │ 8  │ 4  │ 2  │ 1  │
+         ├───┼───┼───┼───┤
+Multiply │1×8 │1×4 │0×2 │1×1 │
+         └───┴───┴───┴───┘
+
+Add: 8 + 4 + 0 + 1 = 13
+
+public int binaryToDecimal(){
+        int decimal = 0;
+        SingleNode temp = this.head;
+        while(temp != null){
+            decimal = decimal *2 + temp.value;
+            temp = temp.next;
+        }
+        return decimal;
+    }
+
+6. Partition List
+- we need to move node which are less than given node value to first and greater and equals to the right side without changing order
+
+public void partitionList(int x) {
+
+		if (head == null) {
+			return;
+		}
+		SingleNode dummy1 = new SingleNode(0);
+		SingleNode dummy2 = new SingleNode(0);
+
+		SingleNode lessThan = dummy1;
+		SingleNode greaterThan = dummy2;
+
+		SingleNode temp = this.head;
+
+		while (temp != null) {
+			if (temp.value < x) {
+				lessThan.next = temp;
+				lessThan = temp;
+			} else {
+				greaterThan.next = temp;
+				greaterThan = temp;
+			}
+			temp = temp.next;
+		}
+		greaterThan.next = null;
+		lessThan.next = dummy2.next;
+		this.head = dummy1.next;
+	}
+
+7. Reverse Between
+- We will be given start and end index only that nodes we have to reverse
+- 11,12,13,14,15,16 m=1 & n=3 output : 11,14,13,12,15,16
+
+public void reverseBetween(int startIndex, int endIndex) {
+		if (head == null)
+			return;
+
+		SingleNode dummyNode = new SingleNode(0);
+		dummyNode.next = head;
+		SingleNode previousNode = dummyNode;
+
+		for (int i = 0; i < startIndex; i++) {
+			previousNode = previousNode.next;
+		}
+
+		SingleNode currentNode = previousNode.next;
+
+		for (int i = 0; i < endIndex - startIndex; i++) {
+			SingleNode nodeToMove = currentNode.next;
+			currentNode.next = nodeToMove.next;
+			nodeToMove.next = previousNode.next;
+			previousNode.next = nodeToMove;
+		}
+
+		head = dummyNode.next;
+	}
+
+8. Swap Nodes In Pairs
+- Swap 2 pairs position if odd keep last as it
+
+public void swapPairs() {
+		SingleNode dummy = new SingleNode(0);
+		dummy.next = head;
+		SingleNode previous = dummy;
+		SingleNode first = head;
+
+		while (first != null && first.next != null) {
+			SingleNode second = first.next;
+
+			// Perform the swap
+			previous.next = second;
+			first.next = second.next;
+			second.next = first;
+
+			// Move pointers
+			previous = first;
+			first = first.next;
+		}
+
+		head = dummy.next;
+	}
 =====================================================================================================================
 
-
+** Doubly Linked List
 
 
