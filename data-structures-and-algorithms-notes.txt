@@ -241,7 +241,7 @@ Head
                                                                                        → Tail: 9 (added with addLast)
 
 ---------------------------------------------------------------------------------------------------------------------
-* Big O of single lined list :
+* Big O of single liked list :
 
 package com.datastructures.linkedlist;
 
@@ -798,8 +798,273 @@ public void swapPairs() {
 
 		head = dummy.next;
 	}
-=====================================================================================================================
+==============================================================================================================================================
 
 ** Doubly Linked List
+- Doubly linked list keep the refrence of previous node as well
+
+Head
+  ↓
++--------+----+--------+     +--------+----+--------+     +--------+----+--------+     +--------+----+--------+     +--------+----+--------+
+| prev   | 1  | next   | <-> | prev   | 3  | next   | <-> | prev   | 4  | next   | <-> | prev   | 5  | next   | <-> | prev   | 7  | next   |
+| null   |    | Node3  |     | Node1  |    | Node4  |     | Node3  |    | Node5  |     | Node4  |    | Node7  |     | Node5  |    | null   |
++--------+----+--------+     +--------+----+--------+     +--------+----+--------+     +--------+----+--------+     +--------+----+--------+
+                                                                                                                  ↑
+                                                                                                                Tail
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+* Big O of doubly linked list :
+
+package com.datastructures.linkedlist;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+
+public class DoubleLinkedListWithBigOofDemo {
+
+	public static void operationOnLinkedList() {
+
+		// O(n) - As it will add each element in list
+		LinkedList<Integer> linkedList = new LinkedList<>(Arrays.asList(3, 4, 5, 7, 8, 9, 6));
+
+		// O(1) - This will add element to first head as one more node
+		linkedList.addFirst(45);
+
+		// O(1) - This will add element to last tail as one more node, no need to iterate as it will have tail address
+		linkedList.add(23);
+		linkedList.addLast(22);
+
+		// O(1) - This will remove first element and move head to next
+		linkedList.remove();
+		linkedList.removeFirst();
+
+		// O(1) - This will remove last element and move tail to previous node
+		linkedList.removeLast();
+		
+		// O(n) - need to iterate over list to remove
+		linkedList.remove(2);
+		
+		// O(n) - need to iterate over list to add
+		linkedList.add(4, 34);
+		
+		// O(1) - This will return first and last value no traversal needed
+		linkedList.getFirst();
+		linkedList.getLast();
+		
+		// O(n) - need to iterate over list to get value
+		linkedList.get(5);
+	}
+
+	public static void main(String[] args) {
+		operationOnLinkedList();
+	}
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Doubly Linked List :
+
+A. Doubly Node :
+
+package com.datastructures.linkedlist.doublylinkedlist;
+
+public class DoublyNode {
+	public DoublyNode prev;
+	public int value;
+	public DoublyNode next;
+
+	DoublyNode(int value) {
+		this.value = value;
+	}
+}
 
 
+B. Doubly Linked List :
+
+package com.datastructures.linkedlist.doublylinkedlist;
+
+public class MyDoublyLinkedList {
+
+	private DoublyNode head;
+	private DoublyNode tail;
+	private int length;
+
+	MyDoublyLinkedList(int value) {
+		DoublyNode newNode = new DoublyNode(value);
+		this.head = newNode;
+		this.tail = newNode;
+		this.length = 1;
+	}
+
+	public void append(int value) {
+		DoublyNode newNode = new DoublyNode(value);
+		if (this.length == 0) {
+			this.head = newNode;
+			this.tail = newNode;
+		} else {
+			this.tail.next = newNode;
+			newNode.prev = this.tail;
+			this.tail = newNode;
+		}
+		this.length++;
+	}
+
+	public DoublyNode removeLast() {
+		if (this.length == 0) {
+			return null;
+		}
+		DoublyNode temp = this.tail;
+		if (this.length == 1) {
+			this.head = null;
+			this.tail = null;
+		} else {
+			this.tail = tail.prev;
+			this.tail.next = null;
+			temp.prev = null;
+		}
+		this.length--;
+		return temp;
+	}
+
+	public void prepend(int value) {
+		DoublyNode newNode = new DoublyNode(value);
+		if (this.length == 0) {
+			this.head = newNode;
+			this.tail = newNode;
+		} else {
+			newNode.next = this.head;
+			this.head.prev = newNode;
+			this.head = newNode;
+		}
+		this.length++;
+	}
+
+	public DoublyNode removeFirst() {
+		if (this.length == 0) {
+			return null;
+		}
+		DoublyNode temp = this.head;
+		if (this.length == 1) {
+			this.head = null;
+			this.tail = null;
+		} else {
+			this.head = this.head.next;
+			this.head.prev = null;
+			temp.next = null;
+		}
+		this.length--;
+		return temp;
+	}
+
+	public DoublyNode get(int index) {
+		if (index < 0 || index >= this.length) {
+			return null;
+		}
+		DoublyNode temp = this.head;
+		if (index < this.length / 2) {
+			for (int i = 0; i < index; i++) {
+				temp = temp.next;
+			}
+		} else {
+			temp = this.tail;
+			for (int j = this.length - 1; j > index; j--) {
+				temp = temp.prev;
+			}
+		}
+		return temp;
+	}
+
+	public boolean set(int index, int value) {
+		DoublyNode temp = get(index);
+		if (temp != null) {
+			temp.value = value;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean insert(int index, int value) {
+		if (index < 0 || index > this.length) {
+			return false;
+		}
+		if (index == 0) {
+			prepend(value);
+			return true;
+		}
+		if (index == this.length) {
+			append(value);
+			return true;
+		}
+
+		DoublyNode newNode = new DoublyNode(value);
+		DoublyNode previous = get(index - 1);
+		DoublyNode after = previous.next;
+
+		previous.next = newNode;
+		newNode.prev = previous;
+		newNode.next = after;
+		after.prev = newNode;
+		this.length++;
+		return true;
+	}
+
+	public DoublyNode remove(int index) {
+		if (index < 0 || index >= this.length) {
+			return null;
+		}
+		DoublyNode temp = get(index);
+		temp.prev.next = temp.next;
+		temp.next.prev = temp.prev;
+		temp.next = null;
+		temp.prev = null;
+		this.length--;
+		return temp;
+	}
+
+	public void printList() {
+		DoublyNode temp = this.head;
+
+		while (temp != null) {
+			System.out.println(temp.value);
+			temp = temp.next;
+		}
+	}
+}
+
+C. Main Class :
+
+package com.datastructures.linkedlist.doublylinkedlist;
+
+public class DoublyLinkedListDemo {
+
+	public static void main(String[] args) {
+		MyDoublyLinkedList myLinkedList = new MyDoublyLinkedList(11);
+
+		myLinkedList.append(12);
+		myLinkedList.append(13);
+
+		myLinkedList.removeLast();
+
+		myLinkedList.prepend(10);
+
+		myLinkedList.removeFirst();
+
+		System.out.println("Get at index : " + myLinkedList.get(0).value);
+
+		myLinkedList.set(1, 13);
+
+		myLinkedList.insert(1, 14);
+		myLinkedList.insert(3, 15);
+
+		System.out.println("Remove at index :" + myLinkedList.remove(2).value);
+
+		myLinkedList.printList();
+
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+* LeetCode Exercise :
+
+1. 
+
+
+==============================================================================================================================================

@@ -1,6 +1,6 @@
 package com.datastructures.linkedlist;
 
-import com.datastructures.singlelinkedlist.practical.MySingleLinkedList;
+import com.datastructures.linkedlist.singlelinkedlist.MySingleLinkedList;
 
 public class SingleLinkedListWithBigOofDemo {
 

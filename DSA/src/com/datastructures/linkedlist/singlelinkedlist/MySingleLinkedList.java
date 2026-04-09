@@ -1,4 +1,4 @@
-package com.datastructures.singlelinkedlist.practical;
+package com.datastructures.linkedlist.singlelinkedlist;
 
 import java.util.HashSet;
 import java.util.Set;
