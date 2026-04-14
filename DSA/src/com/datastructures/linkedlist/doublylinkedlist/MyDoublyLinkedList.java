@@ -168,6 +168,56 @@ public class MyDoublyLinkedList {
 		tail = temp;
 	}
 
+	public void partitionList(int x) {
+		if (this.head == null || this.head.next == null) {
+			return;
+		}
+
+		DoublyNode dummy1 = new DoublyNode(0); // < x
+		DoublyNode dummy2 = new DoublyNode(0); // >= x
+
+		DoublyNode trv1 = dummy1;
+		DoublyNode trv2 = dummy2;
+
+		DoublyNode current = this.head;
+
+		while (current != null) {
+			DoublyNode nextNode = current.next; // save next
+
+			// detach current node
+			current.next = null;
+			current.prev = null;
+
+			if (current.value < x) {
+				trv1.next = current;
+				current.prev = trv1;
+				trv1 = trv1.next;
+			} else {
+				trv2.next = current;
+				current.prev = trv2;
+				trv2 = trv2.next;
+			}
+
+			current = nextNode;
+		}
+
+		// connect both lists
+		if (dummy1.next != null) {
+			this.head = dummy1.next;
+			dummy1.next.prev = null;
+
+			trv1.next = dummy2.next;
+			if (dummy2.next != null) {
+				dummy2.next.prev = trv1;
+			}
+		} else {
+			this.head = dummy2.next;
+			if (this.head != null) {
+				this.head.prev = null;
+			}
+		}
+	}
+
 	public void printList() {
 		DoublyNode temp = this.head;
 
