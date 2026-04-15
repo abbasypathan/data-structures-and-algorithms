@@ -1212,3 +1212,21 @@ public void swapPairs() {
 			head.prev = null;
 	}
 ==============================================================================================================================================
+
+** Stacks & Queues
+
+* Stacks
+- FIFO (Last in First Out)
+- Stack internally using resizable array
+  Index    Stack
+  3      ┌─────┐
+         │       |
+  2      ├─────┤  ← Top (2)
+         │  30   │
+  1      ├─────┤
+         │  20   │
+  0      ├─────┤
+         │  10   │
+         └─────┘
+
+- Amortized O(1) : An operation may sometimes take O(n) time due to resizing in case of resizable array, but over many operations, the average time per operation is O(1).
