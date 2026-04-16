@@ -1229,6 +1229,13 @@ public void swapPairs() {
          │  10   │
          └─────┘
 
+- Front →
+         ┌───────┬───────┬───────┬───────┐  ← Rear
+         │  10     │  20     │  30     │         │
+         └───────┴───────┴───────┴───────┘
+           ↑                      ↑
+         Front                  Rear
+
 - Amortized O(1) : An operation may sometimes take O(n) time due to resizing in case of resizable array, but over many operations, the average time per operation is O(1).
 - Big O of Stack 
 
@@ -1541,5 +1548,251 @@ public class MyQueueDemo {
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
 * Stacks & Queue LeetCode Exercises
+
+1. Push with ArrayList
+
+import java.util.ArrayList;
+
+public class Stack<T> {
+    
+    private ArrayList<T> stackList = new ArrayList<>();  
+    
+    public ArrayList<T> getStackList() {
+        return stackList;
+    }
+    
+    public void printStack() {
+        for (int i = stackList.size()-1; i >= 0; i--) {
+            System.out.println(stackList.get(i));
+        }
+    }
+    
+    public boolean isEmpty() {
+        return stackList.size() == 0;
+    }
+    
+    public T peek() {
+        if (isEmpty()) {
+            return null;
+        } else {
+            return stackList.get(stackList.size() - 1);
+        }
+    }
+    
+    public int size() {
+        return stackList.size();
+    }
+    
+    public void push(T value){
+        this.stackList.add(value);
+    }
+    
+}
+
+2. pop with ArrayList
+
+import java.util.ArrayList;
+
+public class Stack<T> {
+    
+    private ArrayList<T> stackList = new ArrayList<>();  
+    
+    public ArrayList<T> getStackList() {
+        return stackList;
+    }
+    
+    public void printStack() {
+        for (int i = stackList.size()-1; i >= 0; i--) {
+            System.out.println(stackList.get(i));
+        }
+    }
+    
+    public boolean isEmpty() {
+        return stackList.size() == 0;
+    }
+    
+    public T peek() {
+        if (isEmpty()) {
+            return null;
+        } else {
+            return stackList.get(stackList.size() - 1);
+        }
+    }
+    
+    public int size() {
+        return stackList.size();
+    }
+    
+    public void push(T value) {
+        stackList.add(value);
+    }
+    
+    public T pop(){
+        if(isEmpty()){
+            return null;
+        }
+        return this.stackList.remove(size()-1);
+    }
+    
+}
+
+3. Reverse String Using Stack
+
+public static String reverseString(String value) {
+
+		Stack<Character> stack = new Stack<>();
+		String reversedString = "";
+		for (char c : value.toCharArray()) {
+			stack.push(c);
+		}
+		while (!stack.isEmpty()) {
+			reversedString += stack.pop();
+		}
+		return reversedString;
+	}
+
+4. Parentheses Balanced
+
+public static boolean isBalancedParentheses(String value){
+        Stack<Character> stack = new Stack<>();
+		for (char c : value.toCharArray()) {
+			if(c == '('){
+			    stack.push(c);
+			}else if(c == ')'){
+			    if(stack.isEmpty() || stack.pop() != '('){
+			        return false;
+			    }
+			}
+		}
+		return stack.isEmpty();
+    }
+
+5. Sort Stack
+
+public static void sortStack(Stack<Integer> stack) {
+		Stack<Integer> additionalStack = new Stack<>();
+		while (!stack.isEmpty()) {
+			int temp = stack.pop();
+			while (!additionalStack.isEmpty() && additionalStack.peek() > temp) {
+				stack.push(additionalStack.pop());
+			}
+			additionalStack.push(temp);
+		}
+		while (!additionalStack.isEmpty()) {
+			stack.push(additionalStack.pop());
+		}
+	}
+
+6. Queue Using Stack 
+
+    import java.util.Stack;
+
+public class MyQueue {
+    private Stack<Integer> stack1;
+    private Stack<Integer> stack2;
+
+    public MyQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+
+    public void enqueue(int value) {
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
+        }
+        stack1.push(value);
+        while (!stack2.isEmpty()) {
+            stack1.push(stack2.pop());
+        }
+    }
+
+    public Integer dequeue(){
+        if(stack1.isEmpty()){
+            return null;
+        }
+        return stack1.pop();
+    }
+
+    public int peek() {
+        return stack1.peek();
+    }
+
+    public boolean isEmpty() {
+        return stack1.isEmpty();
+    }
+    
+}
+
+==============================================================================================================================================
+** Tree
+
+- Each node can point 2 child odes which is called binary tree, we can point multiple child but that would be not called binary
+- Every node has one parent
+- Full Tree : Every node has either 0 or 2 children (no node has only 1 child)
+
+            [1]
+          /     \
+       [2]       [3]
+      /   \     
+    [4]   [5]
+
+- Perfect Tree : All levels are completely filled
+
+            [1]
+          /     \
+       [2]       [3]
+      /   \     /   \
+    [4]   [5] [6]   [7]
+
+- Complete Tree : All levels are filled except possibly the last, and last level is filled from left to right
+
+            [1]
+          /     \
+       [2]       [3]
+      /   \     /   
+    [4]   [5] [6]   
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Binary Search Tree
+
+- Store elements in sorted order & comparing value to node, if it's less then then goes to left and greater than goes to right
+
+            [50]
+          /      \
+       [30]      [70]
+      /   \     /   \
+    [20] [40] [60] [80]
+
+- Big O of BST
+
+Balanced BST            Skewed BST
+
+      [50]                 [10]
+     /    \                  \
+  [30]   [70]               [20]
+  /  \   /  \                 \
+[20][40][60][80]             [30]
+                               \
+                               [40]
+
+| Feature | Balanced BST | Skewed BST |
+| ------- | ------------ | ---------- |
+| Height  | log n        | n          |
+| Search  | O(log n)     | O(n)       |
+| Insert  | O(log n)     | O(n)       |
+| Delete  | O(log n)     | O(n)       |
+
+- Calculation of Big O of BST
+
+Level 0 → 1 node        → 2^0  
+Level 1 → 2 nodes       → 2^1  
+Level 2 → 4 nodes       → 2^2  
+Level 3 → 8 nodes       → 2^3  
+...
+Level n → 2^n nodes
+
+2^n - 1 ≈ 2^n ≈ dived and conquered ≈ log n
+
+----------------------------------------------------------------------------------------------------------------------------------------------
 
 
