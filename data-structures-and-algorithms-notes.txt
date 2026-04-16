@@ -1795,4 +1795,106 @@ Level n → 2^n nodes
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
+BST 
+
+A. Binary Node
+
+package com.datastructures.binarysearchtree;
+
+public class BinaryNode {
+
+	public BinaryNode left;
+	public int value;
+	public BinaryNode right;
+
+	BinaryNode(int value) {
+		this.value = value;
+	}
+
+}
+
+
+B. Binary Search Tree
+
+package com.datastructures.binarysearchtree;
+
+public class BinarySearchTree {
+
+	public BinaryNode root;
+
+	public boolean insert(int value) {
+		BinaryNode newNode = new BinaryNode(value);
+		if (root == null) {
+			root = newNode;
+			return true;
+		}
+		BinaryNode temp = root;
+		while (true) {
+			if (newNode.value == temp.value)
+				return false;
+			if (newNode.value < temp.value) {
+				if (temp.left == null) {
+					temp.left = newNode;
+					return true;
+				}
+				temp = temp.left;
+			} else {
+				if (temp.right == null) {
+					temp.right = newNode;
+					return true;
+				}
+				temp = temp.right;
+			}
+		}
+	}
+
+	public boolean contains(int value) {
+		BinaryNode temp = root;
+		while (temp != null) {
+			if (value < temp.value) {
+				temp = temp.left;
+			} else if (value > temp.value) {
+				temp = temp.right;
+			} else {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+
+C. BST Demo
+
+package com.datastructures.binarysearchtree;
+
+public class BinarySearchTreeDemo {
+
+	public static void main(String[] args) {
+
+		BinarySearchTree myBinarySearchTree = new BinarySearchTree();
+
+		myBinarySearchTree.insert(2);
+		myBinarySearchTree.insert(1);
+		myBinarySearchTree.insert(3);
+
+		System.out.println("Root: " + myBinarySearchTree.root.value);
+		System.out.println("\nRoot->Left: " + myBinarySearchTree.root.left.value);
+		System.out.println("\nRoot->Right: " + myBinarySearchTree.root.right.value);
+		
+		System.out.println("Value COntains : "+myBinarySearchTree.contains(3));
+		System.out.println("Value COntains : "+myBinarySearchTree.contains(9));
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+* BST LeetCode Exercises
+
+1. BST
+
+==============================================================================================================================================
+** Hash Tables
+
+
+
 
