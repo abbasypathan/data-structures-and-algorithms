@@ -2051,6 +2051,26 @@ Can be found under package com.datastructures.hashtable.leetcode
 
 ** Graphs
 
+- edges are nothing but connections between two vertex/node
+- edges can be weighted, directional or bidirectional
+
+1. Adjacency Matrix - graph is less want quick lookup
+
+     A  B  C
+A  [ 0  1  1 ]
+B  [ 0  0  1 ]
+C  [ 0  0  0 ]
+
+2. Adjacency List - graph is large
+
+A → [ B , C ]
+B → [ C ]
+C → [ ]
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Big O of Graph
+
+- 
 
 
 
