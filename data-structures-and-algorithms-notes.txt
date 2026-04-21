@@ -2036,38 +2036,22 @@ public class MyHashTableDemo {
 ----------------------------------------------------------------------------------------------------------------------------------------------
 * LeetCode
 
-1. ItemInCommon Using Hash Table
+Can be found under package com.datastructures.hashtable.leetcode
 
-package com.datastructures.hashtable.leetcode;
+----------------------------------------------------------------------------------------------------------------------------------------------
+* HashSet
 
-import java.util.HashMap;
+- Internally it uses HashMap
+- Stores value as key only
+- Order not maintained & duplicates not allowed
 
-public class ItemInCommonTwoArray {
+* HashSet LeetCode can be found under package com.datastructures.hashset.leetcode
 
-	public static boolean isItemCOmmon(int[] array1, int[] array2) {
+==============================================================================================================================================
 
-		HashMap<Integer, Boolean> hashMap = new HashMap<>();
-		for (int value : array1) {
-			hashMap.put(value, true);
-		}
-		for (int value : array2) {
-			if (hashMap.get(value) != null) {
-				return true;
-			}
-		}
-		return false;
-	}
+** Graphs
 
-	public static void main(String[] args) {
 
-		int[] array1 = { 1, 2, 5 };
-		int[] array2 = { 6, 3, 5 };
-
-		System.out.println(isItemCOmmon(array1, array2));
-	}
-}
-
-2. Find Duplicate
 
 
 
