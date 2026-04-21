@@ -2053,6 +2053,8 @@ Can be found under package com.datastructures.hashtable.leetcode
 
 - edges are nothing but connections between two vertex/node
 - edges can be weighted, directional or bidirectional
+- V : vertex/node
+- E : edges
 
 1. Adjacency Matrix - graph is less want quick lookup
 
@@ -2061,19 +2063,119 @@ A  [ 0  1  1 ]
 B  [ 0  0  1 ]
 C  [ 0  0  0 ]
 
+- Big o of Adjacency Matrix is O(|V|^2)
+- Adding vertex/node Big o is O(|V|^2) - need to create 2d array
+- Adding edges Big o is O(1)
+- Removing edges Big o is O(1)
+- Removing vertex/nodes Big o is O(|V|^2)
+----------------------------------------------------------------------------------------------------------------------------------------------
+
 2. Adjacency List - graph is large
 
 A → [ B , C ]
 B → [ C ]
 C → [ ]
 
+- Big o of Adjacency List is O(|V| + |E|)
+- Adding vertex/node Big o is O(1)
+- Adding edges Big o is O(1)
+- Removing edges Big o is O(|E|)
+- Removing vertex/node Big o is O(|V| + |E|)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------
-* Big O of Graph
+* Adjacency List
 
-- 
+1. MyGraph
+
+package com.datastructures.graph;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class MyGraph {
+
+	private HashMap<String, List<String>> adjList = new HashMap<>();
+
+	public boolean addVertex(String vertex) {
+		if (this.adjList.get(vertex) == null) {
+			this.adjList.put(vertex, new ArrayList<>());
+		}
+		return false;
+	}
+
+	public boolean addEdge(String vertex1, String vertex2) {
+		if (this.adjList.get(vertex1) != null && this.adjList.get(vertex2) != null) {
+			this.adjList.get(vertex1).add(vertex2);
+			this.adjList.get(vertex2).add(vertex1);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeEdge(String vertex1, String vertex2) {
+		if (this.adjList.get(vertex1) != null && this.adjList.get(vertex2) != null) {
+			this.adjList.get(vertex1).remove(vertex2);
+			this.adjList.get(vertex2).remove(vertex1);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeVertex(String vertex) {
+		if (this.adjList.get(vertex) != null) {
+			for (String str : this.adjList.get(vertex)) {
+				this.adjList.get(str).remove(vertex);
+			}
+			this.adjList.remove(vertex);
+		}
+		return false;
+	}
+
+	public void printGraph() {
+		System.out.println(adjList);
+	}
+}
+
+
+2. MyGraphDemo
+
+package com.datastructures.graph;
+
+public class MyGraphDemo {
+
+	public static void main(String[] args) {
+		MyGraph myGraph = new MyGraph();
+		myGraph.addVertex("A");
+		myGraph.addVertex("B");
+		myGraph.addVertex("C");
+
+		myGraph.addEdge("A", "B");
+		myGraph.addEdge("A", "C");
+		myGraph.addEdge("B", "C");
+
+		myGraph.removeEdge("A", "C");
+
+		myGraph.printGraph();
+
+		myGraph.addEdge("A", "C");
+		myGraph.addVertex("D");
+		myGraph.addEdge("A", "D");
+		myGraph.addEdge("B", "D");
+
+		myGraph.printGraph();
+
+		myGraph.removeVertex("D");
+		
+		myGraph.printGraph();
+	}
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Graph LeetCode
 
 
 
+==============================================================================================================================================
 
 
 
