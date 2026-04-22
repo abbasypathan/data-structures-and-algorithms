@@ -2329,12 +2329,12 @@ public class MyHeapDemo {
 ----------------------------------------------------------------------------------------------------------------------------------------------
 * Priority Queues
 
-- 
+- It's implemented using heap due to it's Big o
+- Big o of heap & priority queue is same as height of complete tree which is nothing but O(log n)
+- For insert & remove we need to adjust tree and need to move element in tree of height log n
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Heap & Priority Queues LeetCode
+
+Can be found under package com.datastructures.heap.leetcode
 ==============================================================================================================================================
-
-
-
-
-
-
-
