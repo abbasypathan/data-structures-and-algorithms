@@ -2340,6 +2340,18 @@ Can be found under package com.datastructures.heap.leetcode
 ==============================================================================================================================================
 ** Recursion
 
+- Calling same method from same method implementation unit it's beak some base condition 
+- Recursion method should have base statement where some conditions are checked & return statement to break out of recursion
+
+* Call Stack
+- Execution flow of method, each method push to stack one by one and once last one gets executed same reverse order it will completed for all
+
+* Factorial Using Recursion
+
+4! = 4 * 3 * 2 * 1 = 24
+
+
+ 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ==============================================================================================================================================
 
