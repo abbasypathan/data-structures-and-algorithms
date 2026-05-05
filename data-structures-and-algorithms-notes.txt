@@ -2360,14 +2360,170 @@ Can be found under package com.datastructures.recursion.binarysearchtree.leetcod
 
 ** Tree Traversal
 
-- Visiting each node of tree and adding into arraylist
+- Visiting each node of tree and adding into array list
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 * BFS - Breadth First Search
-- 
+- Reading element in level by level starting from root
+
+            50
+          /    \
+        30      70
+       /  \    /  \
+     20   40  60   80
+
+Code :
+public ArrayList<Integer> BFS() {
+		BinaryNode currentNode = this.root;
+		Queue<BinaryNode> queue = new LinkedList<>();
+		ArrayList<Integer> results = new ArrayList<>();
+		queue.add(currentNode);
+		while (queue.size() > 0) {
+			currentNode = queue.remove();
+			results.add(currentNode.value);
+			if (currentNode.left != null) {
+				queue.add(currentNode.left);
+			}
+			if (currentNode.right != null) {
+				queue.add(currentNode.right);
+			}
+		}
+		return results;
+	}
+
+BFS Output : [50 → 30 → 70 → 20 → 40 → 60 → 80]
 ----------------------------------------------------------------------------------------------------------------------------------------------
 * DFS - Depth First Search
-- 
+- 3 different way of DFS
+
+            50
+          /    \
+        30      70
+       /  \    /  \
+     20   40  60   80
+--------------------------------------------------------------
+1. DFS - PreOrder
+- Read start from root till left end and then right side, once left side of root fully cover will move to right side again will till left bottom by reading value
+
+Code :
+public ArrayList<Integer> DFSPreOrder() {
+		ArrayList<Integer> results = new ArrayList<>();
+
+		class Traverse {
+			Traverse(BinaryNode currentNode) {
+				results.add(currentNode.value);
+				if (currentNode.left != null) {
+					new Traverse(currentNode.left);
+				}
+				if (currentNode.right != null) {
+					new Traverse(currentNode.right);
+				}
+			}
+		}
+		if (root != null) {
+			new Traverse(root);
+		}
+		return results;
+	}
+
+DFS - PreOrder Output : [50 → 30 → 20 → 40 → 70 → 60 → 80]
+--------------------------------------------------------------
+2. DFS - PostOrder
+- Read left side then right side then root
+
+Code :
+public ArrayList<Integer> DFSPostOrder() {
+		ArrayList<Integer> results = new ArrayList<>();
+
+		class Traverse {
+			Traverse(BinaryNode currentNode) {
+
+				if (currentNode.left != null) {
+					new Traverse(currentNode.left);
+				}
+				if (currentNode.right != null) {
+					new Traverse(currentNode.right);
+				}
+				results.add(currentNode.value);
+			}
+		}
+
+		if (root != null) {
+			new Traverse(root);
+		}
+		return results;
+	}
+
+DFS - PreOrder Output : [20 → 40 → 30 → 60 → 80 → 70 → 50]
+--------------------------------------------------------------
+3. DFS - InOrder
+- Read left side then root side then right
+
+Code :
+public ArrayList<Integer> DFSInOrder() {
+		ArrayList<Integer> results = new ArrayList<>();
+
+		class Traverse {
+			Traverse(BinaryNode currentNode) {
+
+				if (currentNode.left != null) {
+					new Traverse(currentNode.left);
+				}
+				results.add(currentNode.value);
+				if (currentNode.right != null) {
+					new Traverse(currentNode.right);
+				}
+			}
+		}
+
+		if (root != null) {
+			new Traverse(root);
+		}
+		return results;
+	}
+
+DFS - PreOrder Output : [20 → 30 → 40 → 50 → 60 → 70 → 80]
+----------------------------------------------------------------------------------------------------------------------------------------------
+* LeetCode Exercise
+
+1. Is Valid BST
+
+public boolean isValidBST() {
+		ArrayList<Integer> results = DFSInOrder();
+		if (results == null || results.size() <= 1)
+			return true;
+
+		for (int i = 0; i < results.size() - 1; i++) {
+			if (results.get(i) >= results.get(i + 1)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+2. Find Kth Smallest node
+
+public Integer kthSmallest(int k) {
+		Stack<BinaryNode> stack = new Stack<>();
+		BinaryNode node = this.root;
+
+		while (!stack.isEmpty() || node != null) {
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+			node = stack.pop();
+			k -= 1;
+			if (k == 0) {
+				return node.value;
+			}
+			node = node.right;
+		}
+		return null;
+	}
+
+==============================================================================================================================================
+** Basic Sorts
 ----------------------------------------------------------------------------------------------------------------------------------------------
 ==============================================================================================================================================
 
