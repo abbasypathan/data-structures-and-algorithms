@@ -2706,4 +2706,74 @@ public class MergeSort {
 - Can be found at package com.datastructures.sort.mergesort.leetcode;
 ==============================================================================================================================================
 
+** Quick Sort
+
+- Start with pivot element which is nothing but first one and will compare each element with pivot element and less than will keel one side and greater than will keep right side
+- After first iteration first element will be set in the middle of the array and will do same with the left & right array until all are sorted
+- Big O O(n^2), Best & Average O(n log n)
+
+                [7 2 1 6 8 5 3 4]
+                        |
+                     pivot 4
+                  /            \
+           [2 1 3]          [8 5 7 6]
+              |                  |
+           pivot 3            pivot 6
+            /                    \
+         [2 1]                 [7 8]
+            |
+         pivot 1
+
+* Pivot Helper Function 
+
+- It will help to do the first step and will return sorted element index which is middle of less than and greater than
+
+package com.datastructures.sort.quicksort;
+
+import java.util.Arrays;
+
+public class QuickSort {
+
+	public static void quickSort(int[] array) {
+		quickSort(array, 0, array.length - 1);
+	}
+
+	public static void quickSort(int[] array, int left, int right) {
+		if (left < right) {
+			int pivotIndex = pivot(array, left, right);
+			quickSort(array, left, pivotIndex - 1);
+			quickSort(array, pivotIndex + 1, right);
+		}
+
+	}
+
+	public static int pivot(int[] array, int pivotIndex, int endIndex) {
+		int swapIndex = pivotIndex;
+		for (int i = pivotIndex; i <= endIndex; i++) {
+			if (array[i] < array[pivotIndex]) {
+				swapIndex++;
+				swap(array, swapIndex, i);
+			}
+		}
+		swap(array, pivotIndex, swapIndex);
+		return swapIndex;
+	}
+
+	public static void swap(int[] array, int firstIndex, int secondIndex) {
+		int temp = array[firstIndex];
+		array[firstIndex] = array[secondIndex];
+		array[secondIndex] = temp;
+	}
+
+	public static void main(String[] args) {
+		int[] myArray = { 4, 6, 1, 7, 3, 2, 5 };
+		System.out.println("Pivot Index :" + pivot(myArray, 0, myArray.length - 1));
+		System.out.println(Arrays.toString(myArray));
+
+		quickSort(myArray);
+		System.out.println(Arrays.toString(myArray));
+	}
+}
+
+==============================================================================================================================================
 
