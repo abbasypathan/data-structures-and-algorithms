@@ -2776,4 +2776,127 @@ public class QuickSort {
 }
 
 ==============================================================================================================================================
+** Dynamic Programing
+
+- Optimizing code using overlapping problem & structure
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+* Overlapping Problems
+
+- Repeated operation which is having same result
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+* Optimized Substructure
+
+-
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+* Fibonacci Sequence
+
+- 1,1,2,3,5,8,13... 
+- calculating this we are repeating operation such as fib(0), fib(1), fib(2)...
+
+                         +--------+
+                         | fib(4) |
+                         +--------+
+                           /    \
+                          /      \
+                         /        \
+                +--------+      +--------+
+                | fib(3) |      | fib(2) |
+                +--------+      +--------+
+                  /   \           /   \
+                 /     \         /     \
+                /       \       /       \
+         +--------+  +--------+ +--------+ +--------+
+         | fib(2) |  | fib(1) | | fib(1) | | fib(0) |
+         +--------+  +--------+ +--------+ +--------+
+            / \
+           /   \
+          /     \
+   +--------+ +--------+
+   | fib(1) | | fib(0) |
+   +--------+ +--------+
+
+package com.datastructures.dynamicprograming;
+
+public class FibonacciSequence {
+	static int count = 0;
+
+	public static int fib(int n) {
+		count++;
+		if (n == 0 || n == 1) {
+			return n;
+		}
+		return fib(n - 1) + fib(n - 2);
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Fibonacci of : " + fib(6));// 8
+		System.out.println("Method call : " + count); //25 method call
+	}
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+* Memoization
+
+- We can optimize above code by using memoization of repeated operation
+- We are storing result into respective index
+
+package com.datastructures.dynamicprograming;
+
+public class FibonacciSequenceUsingMemoization {
+
+	public static Integer[] memo = new Integer[100];
+	public static int count = 0;
+
+	public static int fib(int n) {
+		count++;
+		if (memo[n] != null) {
+			return memo[n];
+		}
+		if (n == 0 || n == 1) {
+			return n;
+		}
+		memo[n] = fib(n - 1) + fib(n - 2);
+		return memo[n];
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Fibonacci of : " + fib(6));//8
+		System.out.println("Method call : " + count);// 11 method call
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+* Bottom Up
+
+- Another solution to calculate same using bottom up
+
+package com.datastructures.dynamicprograming;
+
+public class FibonacciSequenceUsingBottomUp {
+
+	public static int count = 0;
+
+	public static int fib(int n) {
+		int[] fibList = new int[n + 1];
+		fibList[0] = 0;
+		fibList[1] = 1;
+		for (int i = 2; i <= n; i++) {
+			count++;
+			fibList[i] = fibList[i - 1] + fibList[i - 2];
+		}
+		return fibList[n];
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Fibonacci of : " + fib(6));//8
+		System.out.println("Method call : " + count);// 5 loop
+	}
+}
+
+==============================================================================================================================================
 
